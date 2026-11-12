@@ -58,10 +58,11 @@ change BuildId to pretend compatibility.
 
 1. Preserve the original project, frozen evidence and previous failed runs.
    Create a separate delivery copy and review source/configuration changes.
-2. Verify official engine/plugin/runtime/model compatibility and the applicable
-   vendor installation and redistribution terms. Follow the operator license
-   workflow before downloading or installing a vendor package. Do not bundle a
-   driver/runtime installer merely because its download is public.
+2. For a vendor-enabled build, verify official engine/plugin/runtime/model
+   compatibility and the applicable installation and redistribution terms.
+   Follow the operator license workflow before downloading or installing a vendor
+   package. These vendor prerequisites do not block an authorized ordinary build.
+   Do not bundle a driver/runtime installer merely because its download is public.
 3. Configure the correct startup map, required streaming maps, runtime modules,
    device resolution/fullscreen mode and a normal input/exit path. Use current
    vendor instructions. Screenshot settings such as `-RenderOffscreen`, a fixed
@@ -92,6 +93,28 @@ change BuildId to pretend compatibility.
   `-NoUBA`. Inspect the exact installed implementation. A task-scoped child
   `UBA_ROOT`, `-nocache` and `-UBADisableRemote` contained the reviewed build;
   these do not redirect the separate startup `Trace.uba` rotation.
+- Export actions through a direct UBT invocation with `-WriteOutdatedActions`
+  and `-NoEngineChanges` as top-level build-mode arguments. In the inspected
+  UE 5.8 UAT route, nesting them inside `-ubtargs` did not apply those global
+  options and compilation ran instead. Require the actual exported graph before
+  calling a stage action-only. UAT can also schedule an Editor target for a
+  nominally Blueprint project; use `-nocompileeditor` when reusing its existing
+  editor. After an accepted Game build, `-skipbuild` avoids recompiling it during
+  cook/stage/archive.
+- UE 5.8's C# `ConfigFile` parser splits command-line INI overrides on commas,
+  including commas inside tuples. A tuple accepted by the native engine can
+  therefore fail in UAT before cooking. For the existing filesystem `Local`
+  store, `-ddc=(Local)` plus
+  `-AdditionalCookerOptions=-LocalDataCachePath=<task-cache>` avoids a tuple
+  override. Confirm the effective cache path, shader-worker count and cooker
+  count in the actual cook log.
+- Keep native lifetime independent of progress-file durability. After a process
+  resumes, a journal write error must not discard its Job/process handles or
+  trigger another launch. Windows readers of atomically replaced progress files
+  should permit [delete sharing](https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-createfilew#parameters).
+  Preserve I/O failures and await real exits. If the named Job is unavailable,
+  report its lifetime as unknown; a last PID list, a passing replacement test or
+  a generated EXE does not establish that the original Job is empty.
 
 These observations describe retained software evidence, not universal support
 across every Engine patch. Recheck the selected installation before reuse.
