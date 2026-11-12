@@ -1,0 +1,6 @@
+dcc-mcp-core==0.20.44
+pytest>=7
+ruff>=0.8
+PyYAML>=6
+jsonschema>=4.17
+Pillow>=11

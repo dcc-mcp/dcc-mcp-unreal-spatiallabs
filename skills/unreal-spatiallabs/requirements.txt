@@ -1,0 +1,4 @@
+# Optional software-runner schema validation. Never installed automatically.
+jsonschema>=4.17
+# Optional stereo pixel checker; existing tools do not import it.
+Pillow>=11

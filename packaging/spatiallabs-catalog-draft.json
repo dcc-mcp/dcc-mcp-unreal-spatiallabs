@@ -1,0 +1,31 @@
+{
+  "draft": true,
+  "installable": false,
+  "status": "pending-reviewed-immutable-release",
+  "name": "dcc-mcp-unreal-spatiallabs",
+  "displayName": "Unreal SpatialLabs (experimental)",
+  "description": "Optional Acer SpatialLabs glasses-free 3D project preflight, human-operated project installation, performance analysis and layered acceptance. Vendor binaries are excluded.",
+  "sourceRepository": "https://github.com/dcc-mcp/dcc-mcp-unreal-spatiallabs",
+  "sourceRef": null,
+  "sourceRefStatus": "pending immutable reviewed revision",
+  "skillRoots": [
+    "skills/unreal-spatiallabs"
+  ],
+  "minCoreVersion": null,
+  "minCoreVersionStatus": "pending validation against a released Core version; not inferred from adapter dependency",
+  "artifactUrl": null,
+  "sha256": null,
+  "experimental": true,
+  "bundled": false,
+  "vendorBinariesIncluded": false,
+  "licenseAcceptanceIncluded": false,
+  "compatibilityStatus": "per-project official verification required; unknown combinations blocked",
+  "hardwareAcceptanceStatus": "NOT_RUN",
+  "notes": [
+    "Review-only draft; not a marketplace publication payload or an installable package.",
+    "Installing the skill does not accept Acer, NVIDIA or other third-party terms.",
+    "Real downloads require human acceptance of the exact license, version and project scope in the visible operator console.",
+    "No headset VR or arbitrary closed-source game conversion support.",
+    "No physical-device, tracking, comfort or performance claim without measured hardware evidence."
+  ]
+}
