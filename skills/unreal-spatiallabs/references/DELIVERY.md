@@ -1,8 +1,43 @@
 # Device playtest delivery
 
 Use this workflow when someone should receive a runnable game and connect their
-own SpatialLabs device. Record the exact model, Windows/GPU/driver, Acer runtime
-version and the current official engine/plugin support record first.
+own SpatialLabs device. When the request is broad compatibility, prepare the
+ordinary game independently while keeping a separate device/runtime matrix.
+An unknown recipient model does not block the ordinary package. Record the exact
+model, Windows/GPU/driver, Acer runtime and current official support before
+activating or accepting the vendor integration on that target.
+
+## Windows 10/11 and multiple devices
+
+One Windows x64 package can target Windows 10 and Windows 11; test its actual
+launch and controls on each OS before declaring both verified. Python CI on a
+Windows runner is not a packaged Unreal game or Windows 10 acceptance result.
+Check the Engine's minimum OS/build and graphics requirements separately from
+the selected display runtime's requirements.
+
+For the official UE 5.8 integration, the current Acer 2.1.9 release notes limit
+support to SpatialLabs Pro devices and require Acer OpenXR Runtime 1.01.2059 or
+later. Do not interpret the runtime minimum as proof that every newer release
+supports both Windows versions or every Pro model.
+
+| Target | Ordinary game | Current Acer UE 5.8 stereo integration |
+|---|---|---|
+| Windows 10 x64 | Target and test independently | Verify the exact Pro model/runtime/Windows build first |
+| Windows 11 x64 | Target and test independently | Verify the exact Pro model/runtime/Windows build first |
+| Officially supported SpatialLabs Pro models | Ordinary display mode remains separate | Candidate after vendor prerequisites and authorized installation; device result pending |
+| Consumer View/Predator models or another vendor's display | Ordinary display mode remains separate | Outside this Acer plugin's declared Pro-only support; investigate that model's official route separately |
+
+Deliver normal 2D launch and supported device launch as explicit choices. A
+missing runtime should produce a useful prerequisite message or allow ordinary
+mode; it must not silently change the system OpenXR runtime, install a driver,
+or relabel 2D output as device stereo. Broad compatibility intent does not
+authorize sideloading Pro software on consumer hardware. If another model needs
+a distinct integration, package and validate it separately.
+
+Sources rechecked 2026-11-12:
+[Acer prerequisites](https://spatiallabs.acer.com/developer/docs/dec752e4-1211-11ec-b734-061c90c28e02/d1cfd53e-727e-4dd4-8a1a-90a353e36da3),
+[Acer UE 5.8 release listing](https://spatiallabs.acer.com/developer/download/4af46a9c-1c10-11ec-b734-061c90c28e02),
+[Epic Windows requirements](https://dev.epicgames.com/documentation/en-us/unreal-engine/hardware-and-software-specifications-for-unreal-engine).
 
 ## Choose and verify the delivery
 
