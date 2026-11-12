@@ -115,6 +115,12 @@ change BuildId to pretend compatibility.
   Preserve I/O failures and await real exits. If the named Job is unavailable,
   report its lifetime as unknown; a last PID list, a passing replacement test or
   a generated EXE does not establish that the original Job is empty.
+- Do not use an Engine tick limit as a supervisor deadline. A retained Shipping
+  probe with `-SECONDS=90` remained active beyond five minutes; argument parsing
+  and the effective tick limit were not established for that build. Keep the
+  original supervisor and handles alive until actual exit and owned Job emptiness.
+  If normal automatic exit is unavailable and DCC-CUA observation fails, request
+  a manual normal close; do not send blind input, force termination or relaunch.
 
 These observations describe retained software evidence, not universal support
 across every Engine patch. Recheck the selected installation before reuse.
