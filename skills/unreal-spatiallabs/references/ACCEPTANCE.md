@@ -118,6 +118,14 @@ official support. An example for a run with no hardware is:
 This returns an incomplete result and forces hardware layers to `NOT_RUN`.
 Paths and status labels alone are not independent proof that an action ran.
 
+Record manual playtest feedback with the exact run, action sequence and observed
+result. For example, dismissing a tutorial and clicking the scene before movement
+works confirms that combined sequence, not that focus alone caused the earlier
+failure. A movement check does not pass interaction, scene progression, both-eye
+UI or device acceptance. Retain these subchecks separately under the existing
+layers; no new `acceptance_report` layer keys are introduced. Follow the
+[playable stereo checks](PLAYABLE_STEREO.md) for live software SBS.
+
 ## Minimum deliverable
 
 - Source branch/base/head or reviewed local diff and applicable instructions.

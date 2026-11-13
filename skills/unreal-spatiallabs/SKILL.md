@@ -154,6 +154,9 @@ package's contract:
    synthetic regression tests ran.
 
 For a version to hand to another person, follow [device playtest delivery](references/DELIVERY.md). A screenshot capture plugin and a playable device build have different launch, runtime and acceptance requirements.
+For live software SBS, follow [playable stereo checks](references/PLAYABLE_STEREO.md):
+verify tutorial/input locks, both-eye UI and projection, then preserve the actual
+process and task cleanup results. Two rendered eyes do not pass gameplay or hardware.
 
 ## Scripts
 
