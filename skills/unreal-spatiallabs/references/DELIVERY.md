@@ -44,6 +44,7 @@ Sources rechecked 2026-11-12:
 | Output | What the recipient can test | What remains unverified |
 |---|---|---|
 | Software SBS PNG pair | Static stereoscopic content in a compatible player | Interactive game, vendor integration, tracking and comfort |
+| Packaged game emitting live software SBS | Both-eye rendering and separately tested gameplay | Official model/runtime compatibility, display, tracking and comfort |
 | Packaged ordinary game | Launch, controls and complete gameplay without an editor | SpatialLabs stereo and tracking |
 | Packaged game with the supported vendor integration | Device launch, stereo and tracking under the matching runtime | Hardware acceptance until the recipient actually tests it |
 
@@ -53,6 +54,11 @@ before packaging. Remove a task-specific capture helper from the authorized
 delivery copy; retain its frozen source, images and receipts separately. An Editor
 plugin DLL is not a Shipping/Game binary. Never copy it into a packaged game or
 change BuildId to pretend compatibility.
+
+For an existing Shipping game's stereo-emulation route, use the
+[playable stereo checks](PLAYABLE_STEREO.md). Treat each-eye menu composition,
+input, projection and normal shutdown as explicit checks before packaging;
+an ordinary game's working controls alone do not pass those checks.
 
 ## Build an isolated candidate
 

@@ -93,7 +93,7 @@ search for SpatialLabs and describe the exact returned tool. If discovery report
 the progressive skill inactive, load the returned `unreal-spatiallabs` skill on
 that selected instance using the installed CLI's supported instance selector,
 then search and describe again. Do not select an arbitrary Unreal instance by
-type alone. Verify all seven read-only tools are discoverable with their current
+type alone. Verify all eight read-only tools are discoverable with their current
 schemas before calls. This registration loads no Acer vendor plugin and grants
 no installation authority.
 
