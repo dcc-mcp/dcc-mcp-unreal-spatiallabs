@@ -81,6 +81,11 @@ an ordinary game's working controls alone do not pass those checks.
 5. Check the package from a path unrelated to the developer source directory.
    It must include cooked assets and required licensed prerequisites and start
    without an installed Unreal Editor or the developer's absolute paths.
+   Bind the Game/Shipping executable and target receipt, enabled runtime modules,
+   startup configuration and cooked archive hashes to the same reviewed candidate.
+   Confirm the changed module in Game build/link evidence; monolithic receipts
+   may list plugins rather than individual modules. An older game executable
+   and a newly compiled Editor plugin are not that candidate.
 6. Provide the executable/archive, hashes, short device connection/launch steps,
    controls, supported combination and a way to return the app's own logs.
    Ask the recipient to test scene progression, input, stereo, eye tracking,
@@ -95,8 +100,10 @@ an ordinary game's working controls alone do not pass those checks.
   `BCryptHash` with `bcrypt.lib` and an `abc` known-vector startup self-check.
   Preserve the failing log; do not modify the shared Engine. Independently
   compare emitted file hashes with the receiving system's SHA-256 utility.
-- UE 5.8's installed `ExecutorFactory` can initialize local UBA despite
-  `-NoUBA`. Inspect the exact installed implementation. A task-scoped child
+- In the inspected UE 5.8 `ExecutorFactory`, `-NoUBA` disables detouring while
+  the local UBA scheduler still executes ordinary `[NoUba]` actions. Inspect
+  the selected implementation before interpreting the executor's name or flags.
+  A task-scoped child
   `UBA_ROOT`, `-nocache` and `-UBADisableRemote` contained the reviewed build;
   these do not redirect the separate startup `Trace.uba` rotation.
 - Export actions through a direct UBT invocation with `-WriteOutdatedActions`
@@ -107,6 +114,26 @@ an ordinary game's working controls alone do not pass those checks.
   nominally Blueprint project; use `-nocompileeditor` when reusing its existing
   editor. After an accepted Game build, `-skipbuild` avoids recompiling it during
   cook/stage/archive.
+- An exported action graph does not prove that an import restores its dependencies.
+  In the inspected UE 5.8 toolchain, `LinkedAction.ExportJson` writes
+  `PrerequisiteActions` IDs, but `Action.ImportJson` reads `PrerequisiteItems`;
+  `ActionGraph.ImportJson` and `ExecuteMode` do not restore the ID edges.
+  Direct `-Mode=Execute -Actions=...` therefore ran links and dependent compiles
+  before their precompiled header (PCH), producing `LNK1181` and `C1083` errors.
+  Preserve this failure and run the reviewed direct UBT Build invocation without
+  `-WriteOutdatedActions`; keep its target, source and protective flags so its
+  in-memory dependencies remain intact. Do not
+  patch the shared Engine, hand-edit the graph or invent an executor. Check the
+  selected exporter/importer before reuse; this is not a ban on every Engine
+  patch's import path. A locked PCH during its own compile is not evidence of
+  a shared Engine permission problem.
+- Review and hash the actual on-disk response files as well as the exported
+  commands and outputs. In that toolchain, `ResponseFileContents` contained a
+  prefix; the real compiler response file also contained language, optimization
+  and warning flags. Preserve those bytes before the next stage; do not truncate
+  the file to the exported prefix. A normal UBT Build may regenerate its own
+  project-local response files, which must remain distinct from the retained
+  export evidence.
 - UE 5.8's C# `ConfigFile` parser splits command-line INI overrides on commas,
   including commas inside tuples. A tuple accepted by the native engine can
   therefore fail in UAT before cooking. For the existing filesystem `Local`
@@ -121,6 +148,15 @@ an ordinary game's working controls alone do not pass those checks.
   Preserve I/O failures and await real exits. If the named Job is unavailable,
   report its lifetime as unknown; a last PID list, a passing replacement test or
   a generated EXE does not establish that the original Job is empty.
+- The same lifetime rule applies to every post-resume exception and an uncertain
+  `ResumeThread` outcome, not just progress-file I/O. Keep observing the same
+  original root/thread/Job handles; an exception handler must not release them
+  in `finally` while the tree is still live or unknown. After actual root exit
+  and Job emptiness, retain the first error and report failure even if the root
+  returned zero. Completed cleanup does not turn that failure into a build pass.
+  Check this with non-native fault tests for repeated query/save failures,
+  interrupts and uncertain resume. Separately preserve safe cleanup of only the
+  newly created, provably unresumed suspended root; do not relaunch or adopt a Job.
 - Do not use an Engine tick limit as a supervisor deadline. A retained Shipping
   probe with `-SECONDS=90` remained active beyond five minutes; argument parsing
   and the effective tick limit were not established for that build. Keep the

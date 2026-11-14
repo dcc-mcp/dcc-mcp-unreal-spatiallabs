@@ -50,6 +50,25 @@ overlay spanning the combined pair is a delivery defect even when the scene has
 two views. Verify hit testing after any UI correction. Camera tuning does not fix
 UI composition, and changing the UI does not establish projection calibration.
 
+For a project-local software SBS correction, trace both `AddToViewport` and
+`AddToPlayerScreen` callers. Preserve one logical widget state/event flow across
+both eyes and keep the ordinary 2D path. Legacy PlayerController mouse polling and native Slate/UMG
+hit testing, including captured-pointer dragging, must use consistent mappings
+from each physical eye to the allocated UI geometry. Test center and edge
+controls, settings buttons and sliders from either eye, then resize and repeat
+with non-unit DPI. A pure coordinate helper's tests or an Editor DLL build do
+not establish that these runtime paths work.
+
+If rendering the UI offscreen, preserve its per-eye aspect and inspect the
+selected renderer's alpha/gamma contract. UE's inspected retainer-render-target
+guidance uses premultiplied alpha: avoid multiplying source alpha twice, and
+apply parent opacity consistently to RGB and alpha. Record physical viewport
+size, allocated UI size and accumulated Slate layout scale after a valid layout
+and render target exist, rather than reading initial defaults. Pair virtual
+window registration with teardown and defer renderer cleanup as required by
+the selected API. These are integration checks, not a claim that this Skill
+ships a runtime UI plugin or that native input/rendering has passed.
+
 Inspect the active camera, view target, eye offset, FOV, projection asymmetry and
 WorldToMeters before calibration. For the inspected UE 5.8 implementation,
 `GeneralProjectSettings` exposes `EyeOffsetForFakeStereoRenderingDevice`,
