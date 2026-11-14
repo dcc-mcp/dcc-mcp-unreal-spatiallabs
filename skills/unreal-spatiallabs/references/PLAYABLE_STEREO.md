@@ -51,8 +51,8 @@ two views. Verify hit testing after any UI correction. Camera tuning does not fi
 UI composition, and changing the UI does not establish projection calibration.
 
 For a project-local software SBS correction, trace both `AddToViewport` and
-`AddToPlayerScreen` callers. Keep one widget state/event tree and preserve the
-ordinary 2D path. Legacy PlayerController mouse polling and native Slate/UMG
+`AddToPlayerScreen` callers. Preserve one logical widget state/event flow across
+both eyes and keep the ordinary 2D path. Legacy PlayerController mouse polling and native Slate/UMG
 hit testing, including captured-pointer dragging, must use consistent mappings
 from each physical eye to the allocated UI geometry. Test center and edge
 controls, settings buttons and sliders from either eye, then resize and repeat
