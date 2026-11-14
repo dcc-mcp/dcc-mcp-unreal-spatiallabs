@@ -83,8 +83,9 @@ an ordinary game's working controls alone do not pass those checks.
    without an installed Unreal Editor or the developer's absolute paths.
    Bind the Game/Shipping executable and target receipt, enabled runtime modules,
    startup configuration and cooked archive hashes to the same reviewed candidate.
-   Verify that the Game receipt includes the changed runtime module; an older
-   game executable and a newly compiled Editor plugin are not that candidate.
+   Confirm the changed module in Game build/link evidence; monolithic receipts
+   may list plugins rather than individual modules. An older game executable
+   and a newly compiled Editor plugin are not that candidate.
 6. Provide the executable/archive, hashes, short device connection/launch steps,
    controls, supported combination and a way to return the app's own logs.
    Ask the recipient to test scene progression, input, stereo, eye tracking,
@@ -119,8 +120,9 @@ an ordinary game's working controls alone do not pass those checks.
   `ActionGraph.ImportJson` and `ExecuteMode` do not restore the ID edges.
   Direct `-Mode=Execute -Actions=...` therefore ran links and dependent compiles
   before their precompiled header (PCH), producing `LNK1181` and `C1083` errors.
-  Preserve this failure and use the standard UBT Build entry with the reviewed
-  target, source and flags so its in-memory dependencies remain intact. Do not
+  Preserve this failure and run the reviewed direct UBT Build invocation without
+  `-WriteOutdatedActions`; keep its target, source and protective flags so its
+  in-memory dependencies remain intact. Do not
   patch the shared Engine, hand-edit the graph or invent an executor. Check the
   selected exporter/importer before reuse; this is not a ban on every Engine
   patch's import path. A locked PCH during its own compile is not evidence of
